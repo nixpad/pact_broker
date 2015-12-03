@@ -1,0 +1,17 @@
+dev:
+  extends:
+    service: pact_broker 
+    file: ../../docker-compose.yml
+  volumes:
+    - .:/opt/services/pact_broker
+  command: bash -c "bundle && bundle exec rackup -o 0.0.0.0"
+  build: .
+
+prod:
+  image: hub.docker.com/npadilla/pact_broker:latest
+  container_name: pact_broker
+  hostname: pact_broker 
+  external_links:
+    - mysql:mysql
+  ports:
+    - '5000'
